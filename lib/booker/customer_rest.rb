@@ -1,6 +1,33 @@
 module Booker
   module CustomerREST
     include CommonREST
+    
+    def create_appointment(booker_location_id, start_time, treatment_ids, incomplete_appoinment_id, customer_id, credit_card, custom_access_token = {}, options: {})
+      post "/appointment/create", build_params({
+        "LocationID" => booker_location_id,
+        "ItineraryTimeSlotList" => [
+          "StartDateTime" => start_time,
+          "TreatmentTimeSlots" => treatment_ids.map { |id|
+            {
+              "StartDateTime" => start_time,
+              "TreatmentID" => id
+            }
+          }
+        ],
+        "AppointmentPayment" => {
+          "PaymentItem" => {
+            "CreditCard" => credit_card,
+            "Method" => {
+              "ID" => 1
+            }
+          }
+        },
+        "IncompleteAppointmentID" => incomplete_appoinment_id,
+        "Customer" => {
+          "ID" => customer_id
+        }
+      }, custom_access_token.merge(options)), Booker::Models::Appointment
+    end
 
     def create_appointment(booker_location_id, available_time, customer, options = {})
       post '/appointment/create', build_params({

@@ -130,3 +130,6 @@ Added to reach '/forgot_password/custom'. Expects booker_location_id, email, fir
 
 CustomerRest#reset_password
 Added to reach '/password/reset'. Expects key & password.
+
+CustomerRest#create_appointment
+Modified to accept booker_location_id, start_time, treatment_ids, incomplete_appoinment_id, customer_id, credit_card, custom_access_token = {}
