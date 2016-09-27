@@ -2,7 +2,7 @@ module Booker
   module CustomerREST
     include CommonREST
 
-    def create_appointment(booker_location_id:, available_time:, customer:, options: {})
+    def create_appointment(booker_location_id, available_time, customer, options = {})
       post '/appointment/create', build_params({
             'LocationID' => booker_location_id,
             'ItineraryTimeSlotList' => [
@@ -12,7 +12,17 @@ module Booker
           }, options), Booker::Models::Appointment
     end
 
-    def create_class_appointment(booker_location_id:, class_instance_id:, customer:, options: {})
+    def create_incomplete_appointment(booker_location_id, start_time, treatment_ids, options = {})
+      post '/appointment/createincomplete', build_params({
+        'LocationID' => booker_location_id,
+        'ItineraryTimeSlot' => {
+          'StartDateTime' => start_time,
+          'TreatmentTimeSlots' => treatment_ids.map { |id| { 'StartDateTime' => start_time, 'TreatmentID' => id } }
+        }
+      }, options)
+    end
+
+    def create_class_appointment(booker_location_id, class_instance_id, customer, options = {})
       post '/class_appointment/create', build_params({
             'LocationID' => booker_location_id,
             'ClassInstanceID' => class_instance_id,
@@ -20,7 +30,7 @@ module Booker
           }, options), Booker::Models::Appointment
     end
 
-    def run_multi_spa_multi_sub_category_availability(booker_location_ids:, treatment_sub_category_ids:, start_date_time:, end_date_time:, options: {})
+    def run_multi_spa_multi_sub_category_availability(booker_location_ids, treatment_sub_category_ids, start_date_time, end_date_time, options = {})
       post '/availability/multispamultisubcategory', build_params({
             'LocationIDs' => booker_location_ids,
             'TreatmentSubCategoryIDs' => treatment_sub_category_ids,
@@ -30,17 +40,20 @@ module Booker
           }, options), Booker::Models::SpaEmployeeAvailabilitySearchItem
     end
 
-    def run_multi_service_availability(booker_location_id:, treatment_ids:, employee_id:nil, start_date_time:, end_date_time:, options: {})
-      post '/availability/multiservice', build_params({
-        'LocationID' => booker_location_id,
-        'StartDateTime' => start_date_time,
-        'EndDateTime' => end_date_time,
-        'MaxTimesPerDay' => 100,
-        'Itineraries' => treatment_ids.map { |id| {'Treatments' => [{'TreatmentID' => id, 'EmployeeID' => employee_id}]} }
-      }, options), Booker::Models::MultiServiceAvailabilityResult
+    def run_multi_service_availability(booker_location_id, treatment_ids, start_date_time, end_date_time, employee_id = nil, options = {})
+      treatment_ids = [treatment_ids] unless treatment_ids.respond_to?(:map)
+      post '/availability/multiservice', build_params(
+        {
+          'LocationID' => booker_location_id,
+          'StartDateTime' => start_date_time,
+          'EndDateTime' => end_date_time,
+          'MaxTimesPerDay' => 100,
+          'Itineraries' => treatment_ids.map { |id| { 'Treatments' => [{ 'TreatmentID' => id, 'EmployeeID' => employee_id }] } }
+        }, options
+      ), Booker::Models::MultiServiceAvailabilityResult
     end
 
-    def run_class_availability(booker_location_id:, from_start_date_time:, to_start_date_time:, options: {})
+    def run_class_availability(booker_location_id, from_start_date_time, to_start_date_time, options = {})
       post '/availability/class', build_params({
           'FromStartDateTime' => from_start_date_time,
           'LocationID' => booker_location_id,
@@ -48,6 +61,71 @@ module Booker
           'ToStartDateTime' => to_start_date_time,
           'ExcludeClosedDates' => true
         }, options), Booker::Models::ClassInstance
+    end
+
+    def find_treatments(booker_location_id, category_id = nil)
+      post '/treatments', build_params({
+        'LocationID' => booker_location_id,
+        'CategoryID' => category_id
+      })
+    end
+
+    def get_treatment_categories(booker_location_id)
+      get '/treatment_categories', build_params({
+        'location_id' => booker_location_id
+      })
+    end
+
+    def get_locations
+      post '/locations', build_params
+    end
+    
+    def find_employees(booker_location_id)
+      post '/employees', build_params({
+        'LocationID' => booker_location_id
+      })
+    end
+
+    def create_customer(booker_location_id, customer_data)
+      post '/customer/account', build_params({
+        'LocationID' => booker_location_id,
+        'Email' => customer_data[:email],
+        'Password' => customer_data[:password],
+        'FirstName' => customer_data[:first_name],
+        'LastName' => customer_data[:last_name],
+        'HomePhone' => customer_data[:cell_phone]
+      })
+    end
+
+    def update_customer(customer_id, customer_data, custom_access_token = {})
+      put "/customer/#{customer_id}", build_params(customer_data, custom_access_token)
+    end
+
+    def login(booker_location_id, email, password, options: {})
+      post '/customer/login', build_params({
+        'LocationID' => booker_location_id,
+        'Email' => email,
+        'Password' => password
+      }, options.merge({
+        client_id: self.client_id,
+        client_secret: self.client_secret
+      }))
+    end
+
+    def forgot_password(booker_location_id, email, first_name, base_url, options: {})
+      post '/forgot_password/custom', build_params({
+        'LocationID' => booker_location_id,
+        'Email' => email,
+        'Firstname' => first_name,
+        'BaseUrlOfHost' => base_url
+      }, options)
+    end
+
+    def reset_password(key, password, options: {})
+      post '/password/reset', build_params({
+        'Key' => key,
+        'Password' => password
+      }, options)
     end
   end
 end

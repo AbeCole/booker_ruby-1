@@ -91,3 +91,42 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/HireFr
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+
+## Notable changes to this fork
+
+CustomerRest#run_multi_service_availability
+treatment_ids now accepts a Integer type object and wraps it in an array
+employee_id (optional) parameter moved to 5th parameter position
+BEFORE: booker_location_id, treatment_ids, employee_id = nil, start_date_time, end_date_time, options: {}
+AFTER: booker_location_id, treatment_ids, start_date_time, end_date_time, employee_id = nil, options: {}
+
+CustomerRest#create_incomplete_appointment
+Added function to reach 'appointment/createincomplete' booker endpoint. Data structure has not been refined, it is simply one that works with Booker and could be reduced.
+
+CustomerRest#find_treatments
+Added to reach '/treatments'. Expects booker_location_id and optionally a category_id
+
+CustomerRest#get_treatment_categories
+Added to reach '/treatment_categories'. Expects booker_location_id
+
+CustomerRest#get_locations
+Added to reach '/locations'
+
+CustomerRest#find_employees
+Added to reach '/employees'
+
+CustomerRest#create_customer
+Added to reach '/customer/account'. Expects booker_location_id and a customer_data hash with keys: email, password, first_name, last_name & cell_phone.
+
+CustomerRest#update_customer
+Added to reach '/customer/#{customer_id}'. Expects customer_id, a customer_data hash and optionally custom_access_token.
+
+CustomerRest#login
+Added to reach '/customer/login'. Expects booker_location_id, email & password.
+
+CustomerRest#forgot_password
+Added to reach '/forgot_password/custom'. Expects booker_location_id, email, first_name & base_url (callback URL).
+
+CustomerRest#reset_password
+Added to reach '/password/reset'. Expects key & password.
