@@ -133,3 +133,6 @@ Added to reach '/password/reset'. Expects key & password.
 
 CustomerRest#create_appointment
 Modified to accept booker_location_id, start_time, treatment_ids, incomplete_appoinment_id, customer_id, credit_card, custom_access_token = {}
+
+Client#handle_errors!
+Commented out attempt to get new access token

@@ -111,9 +111,9 @@ module Booker
         case ex.error
           when 'invalid_client'
             raise Booker::InvalidApiCredentials.new(url: url, request: request, response: response)
-          when 'invalid access token'
-            get_access_token
-            return nil
+          # when 'invalid access token'
+          #   get_access_token
+          #   return nil
           else
             raise ex
         end
