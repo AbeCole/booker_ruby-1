@@ -29,16 +29,6 @@ module Booker
       }, custom_access_token.merge(options)), Booker::Models::Appointment
     end
 
-    def create_appointment(booker_location_id, available_time, customer, options = {})
-      post '/appointment/create', build_params({
-            'LocationID' => booker_location_id,
-            'ItineraryTimeSlotList' => [
-              'TreatmentTimeSlots' => [available_time]
-            ],
-            'Customer' => customer
-          }, options), Booker::Models::Appointment
-    end
-
     def create_incomplete_appointment(booker_location_id, start_time, treatment_ids, options = {})
       post '/appointment/createincomplete', build_params({
         'LocationID' => booker_location_id,
