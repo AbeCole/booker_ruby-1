@@ -1,6 +1,6 @@
 module Booker
   class Error < StandardError
-    attr_accessor :error, :description, :url, :request, :response
+    attr_accessor :error, :description, :url, :request, :response, :argument_errors
 
     def initialize(url: nil, request: nil, response: nil)
       if request.present?
