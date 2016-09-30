@@ -9,9 +9,10 @@ module Booker
 
       if response.present?
         self.response = response
-        self.error = response['error'] || response['ErrorMessage']
-        self.description = response['error_description']
-        self.argument_errors = response["ArgumentErrors"].map { |a| { :attr => a["ArgumentName"], :message => a["ErrorMessage"] } } unless response["ArgumentErrors"].nil?
+        error = response["Fault"]["Detail"]["InternalErrroFault"] || response
+        self.error = error['error'] || error['ErrorMessage']
+        self.description = error['error_description']
+        self.argument_errors = error["ArgumentErrors"].map { |a| { :attr => a["ArgumentName"], :message => a["ErrorMessage"] } } unless error["ArgumentErrors"].nil?
       end
 
       self.url = url

@@ -136,3 +136,6 @@ Modified to accept booker_location_id, start_time, treatment_ids, incomplete_app
 
 Client#handle_errors!
 Commented out attempt to get new access token
+
+Errors#initialize
+Altered to handle Booker errors that provide a "Fault" root attribute.
