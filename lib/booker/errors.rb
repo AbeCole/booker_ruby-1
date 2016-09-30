@@ -10,7 +10,7 @@ module Booker
       if response.present?
         self.response = response
         error = response
-        error = response["Fault"]["Detail"]["InternalErrroFault"] if response["Fault"]
+        error = response["Fault"]["Detail"]["InternalErrorFault"] if response["Fault"]
         self.error = error['error'] || error['ErrorMessage']
         self.description = error['error_description']
         self.argument_errors = error["ArgumentErrors"].map { |a| { :attr => a["ArgumentName"], :message => a["ErrorMessage"] } } unless error["ArgumentErrors"].nil?
