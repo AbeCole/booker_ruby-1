@@ -1,3 +1,3 @@
 module Booker
-  VERSION = '1.12.10'
+  VERSION = '1.12.11'
 end
