@@ -2,7 +2,7 @@ module Booker
   module CustomerREST
     include CommonREST
     
-    def create_appointment(booker_location_id, start_time, treatment_ids, incomplete_appoinment_id, customer_id, credit_card, coupon_code = nil, notes = nil, custom_access_token = {}, options: {})
+    def create_appointment(booker_location_id, start_time, treatment_ids, incomplete_appoinment_id, customer, credit_card, coupon_code = nil, notes = nil, custom_access_token = {}, options: {})
       post "/appointment/create", build_params({
         "LocationID" => booker_location_id,
         "ItineraryTimeSlotList" => [
@@ -25,9 +25,7 @@ module Booker
         },
         "Notes" => notes,
         "IncompleteAppointmentID" => incomplete_appoinment_id,
-        "Customer" => {
-          "ID" => customer_id
-        }
+        "Customer" => customer
       }, custom_access_token.merge(options)), Booker::Models::Appointment
     end
 
