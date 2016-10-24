@@ -24,7 +24,7 @@ module Booker
       end
     end
 
-    def get(path, params, booker_model=nil)
+    def get(path, build_params, booker_model=nil)
       booker_resources = get_booker_resources(:get, path, params, nil, booker_model)
 
       build_resources(booker_resources, booker_model)
