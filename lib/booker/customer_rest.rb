@@ -103,7 +103,11 @@ module Booker
       })
     end
 
-    def create_customer(booker_location_id, customer_data)
+    def get_customer(customer_id, custom_access_token = {})
+      get "/customer/#{customer_id}", build_params()
+    end
+
+    def create_customer(booker_location_id, customer_data, options: {})
       post '/customer/account', build_params({
         'LocationID' => booker_location_id,
         'Email' => customer_data[:email],
@@ -111,7 +115,7 @@ module Booker
         'FirstName' => customer_data[:first_name],
         'LastName' => customer_data[:last_name],
         'HomePhone' => customer_data[:cell_phone]
-      })
+      }, options)
     end
 
     def update_customer(customer_id, customer_data, custom_access_token = {})

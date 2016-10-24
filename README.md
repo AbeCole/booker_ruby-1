@@ -116,6 +116,9 @@ Added to reach '/locations'
 CustomerRest#find_employees
 Added to reach '/employees'
 
+CustomerRest#get_customer
+Added to reach '/customer/#{customer_id}'. Expects customer_id and optionally custom_access_token.
+
 CustomerRest#create_customer
 Added to reach '/customer/account'. Expects booker_location_id and a customer_data hash with keys: email, password, first_name, last_name & cell_phone.
 
