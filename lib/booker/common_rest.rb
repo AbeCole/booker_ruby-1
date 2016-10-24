@@ -23,7 +23,8 @@ module Booker
     private
 
       def build_params(default_params={}, overrides={}, paginated=false)
-        merged = {"access_token" => access_token}.merge(default_params.merge(overrides))
+        merged = default_params.merge(overrides)
+        merged.merge({"access_token" => access_token}) unless merged.has_key?("access_token")
 
         merged.each do |k, v|
           if v.is_a?(Time) || v.is_a?(DateTime)
