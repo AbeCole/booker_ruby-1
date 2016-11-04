@@ -47,6 +47,16 @@ module Booker
           }, options), Booker::Models::Appointment
     end
 
+    def calculate_appointment_cost(booker_location_id, appointment_id, coupon_code, options = {})
+      post '/appointment/prebooking/totalcost', build_params({
+        'LocationID' => booker_location_id,
+        'AppointmentID' => appointment_id,
+        'CouponCode' => coupon_code,
+        'AppointmentDate' => DateTime.now,
+        'AppointmentTreatmentDTOs' => []
+      }, options)
+    end
+
     def run_multi_spa_multi_sub_category_availability(booker_location_ids, treatment_sub_category_ids, start_date_time, end_date_time, options = {})
       post '/availability/multispamultisubcategory', build_params({
             'LocationIDs' => booker_location_ids,

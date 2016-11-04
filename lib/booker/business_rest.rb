@@ -108,5 +108,13 @@ module Booker
       response = get "/location/#{booker_location_id}/feature_settings", build_params
       Booker::Models::FeatureSettings.from_hash response['FeatureSettings']
     end
+    
+    def get_appointment(appointment_id)
+      get "/appointment/#{appointment_id}", build_params
+    end
+    
+    def place_order(order_id, amount)
+      post "/order/#{order_id}/place_order", build_params()
+    end
   end
 end
