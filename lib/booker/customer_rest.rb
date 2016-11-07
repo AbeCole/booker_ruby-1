@@ -1,6 +1,10 @@
 module Booker
   module CustomerREST
     include CommonREST
+
+    def get_customer_appointments(customer_id, custom_access_token, options = {})
+      get "/customer/#{customer_id}/appointments", build_params(options, custom_access_token)
+    end
     
     def create_appointment(booker_location_id, start_time, treatment_ids, incomplete_appoinment_id, customer, credit_card, coupon_code = nil, notes = nil, custom_access_token = {}, options: {})
       post "/appointment/create", build_params({
