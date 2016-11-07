@@ -113,8 +113,8 @@ module Booker
       })
     end
 
-    def get_customer(customer_id, custom_access_token = {})
-      get "/customer/#{customer_id}", build_params({}, custom_access_token)
+    def get_customer(customer_id, options = {}, custom_access_token = {})
+      get "/customer/#{customer_id}", build_params(options, custom_access_token)
     end
 
     def create_customer(booker_location_id, customer_data, options: {})
