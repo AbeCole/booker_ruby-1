@@ -118,7 +118,7 @@ module Booker
     end
     
     def cancel_appointment(appointment_id)
-      post "/appointment/cancel", build_params({
+      put "/appointment/cancel", build_params({
         'ID' => appointment_id
       })
     end
