@@ -113,14 +113,18 @@ module Booker
       get "/appointment/#{appointment_id}", build_params
     end
     
-    def place_order(order_id, amount)
-      post "/order/#{order_id}/place_order", build_params
-    end
-    
     def cancel_appointment(appointment_id)
       put "/appointment/cancel", build_params({
         'ID' => appointment_id
       })
+    end
+    
+    def place_order(order_id, amount)
+      post "/order/#{order_id}/place_order", build_params
+    end
+    
+    def take_deposit(order_id)
+      post "/order/#{order_id}/deposit", build_params
     end
   end
 end
