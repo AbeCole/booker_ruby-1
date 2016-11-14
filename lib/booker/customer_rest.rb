@@ -128,7 +128,8 @@ module Booker
         'Password' => customer_data[:password],
         'FirstName' => customer_data[:first_name],
         'LastName' => customer_data[:last_name],
-        'HomePhone' => customer_data[:cell_phone]
+        'HomePhone' => customer_data[:cell_phone],
+        'AllowReceiveSMS' => customer_data[:AllowReceiveSMS]
       }, options)
     end
 
