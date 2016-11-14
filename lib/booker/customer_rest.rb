@@ -129,6 +129,7 @@ module Booker
         'FirstName' => customer_data[:first_name],
         'LastName' => customer_data[:last_name],
         'HomePhone' => customer_data[:cell_phone],
+        'AllowReceiveEmails' => customer_data[:AllowReceiveEmails],
         'AllowReceiveSMS' => customer_data[:AllowReceiveSMS]
       }, options)
     end
